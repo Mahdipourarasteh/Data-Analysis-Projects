@@ -38,5 +38,61 @@ plt.ylabel("Number of Deaths", fontsize= 14)
 ax= clinic1.plot(x="year", y="proportion of deaths", label="Clinic 1", color="red")
 clinic2.plot(x="year", y="proportion of deaths", label="Clinic 2", ax=ax, ylabel="Proportion of Deaths", color="green")
 
-plt.show()
-input()
+
+#######################################################################################################################
+
+# Read the monthly dataset
+monthly_df= pd.read_csv("monthly_deaths.csv")
+# print(monthly_df.head(5))
+# print(monthly_df.shape)
+# print(monthly_df.info())
+
+#Calculate the proportion of deaths per month
+monthly_df["proportion of deaths"]= monthly_df["deaths"]/ monthly_df["births"]
+#print(monthly_df.head(5))
+
+#Change the data type of "date" column from string to datatime
+#print(monthly_df.dtypes)
+monthly_df['date']= pd.to_datetime(monthly_df['date'])
+
+# Label the date at which handwashing started to "start_handwashing"
+start_handwashing= pd.to_datetime('1847-06-01')
+
+# Split monthly into before and after handwashing_start
+before_washing= monthly_df[monthly_df['date'] < start_handwashing]
+after_washing= monthly_df[monthly_df['date'] >= start_handwashing]
+
+#befor handwashing
+fig, ax= plt.subplots(figsize= (10,4))
+x=before_washing['date']
+y=before_washing["proportion of deaths"]
+plt.plot(x ,y, color= "orange")
+plt.title("Before Handwashing", fontsize=16)
+plt.xlabel("Date", fontsize=14)
+plt.ylabel("Proportion of Deaths", fontsize=14)
+
+#after handwashing
+fig, ax= plt.subplots(figsize= (10,4))
+x=after_washing['date']
+y=after_washing["proportion of deaths"]
+plt.plot(x ,y, color= "orange")
+plt.title("After Handwashing", fontsize=16)
+plt.xlabel("Date", fontsize=14)
+plt.ylabel("Proportion of Deaths", fontsize=14)
+
+#combined before and after handwashing
+ax= before_washing.plot(x="date", y="proportion of deaths", label="Before Handwashing", color="orange")
+after_washing.plot(x="date", y="proportion of deaths", label="After Handwashing", ax=ax, ylabel="Proportion of Deaths", color="green")
+
+
+
+plt.show()  #shows all plots
+
+
+
+#Calculation of change of proportion rate before and after hand washing
+before_proportion= before_washing["proportion of deaths"]
+after_proportion= after_washing["proportion of deaths"]
+
+mean_diff= after_proportion.mean() - before_proportion.mean()
+print(mean_diff)
