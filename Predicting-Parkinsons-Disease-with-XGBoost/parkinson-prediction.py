@@ -72,6 +72,11 @@ feature_scores.columns= ['Features', 'Score']
 feature_scores.sort_values(by= 'Score')
 #print(feature_scores)
 
+#### From the correlation heatmap and feature selection step we conclude that the 3 most affecting features on the target out put are:
+#### 1- MDVP:Flo(Hz)
+#### 2- MDVP:Fo(Hz)
+#### 3- MDVP:Fhi(Hz)
+
 ######################## Build the Model ################################
 
 x= parkinson_df[["MDVP:Flo(Hz)", "MDVP:Fo(Hz)", "MDVP:Fhi(Hz)"]]
@@ -103,7 +108,11 @@ plt.ylabel('True Positive Rate')
 plt.xlabel('false Positive Rate')
 plt.legend(loc=4)
 
+#### The area under the curve (AUC) is 0.84, which is very close to one, meaning that the model did a good job.
+
+###################### Save the Model ###################################
 # Save the trained model to a file to be used in future predictions 
 joblib.dump(model, 'XG.pkl')
+
 
 plt.show()
