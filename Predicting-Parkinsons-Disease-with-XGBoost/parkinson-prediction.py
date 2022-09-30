@@ -2,11 +2,11 @@ import os, sys
 import numpy as np
 import pandas as pd
 from xgboost import XGBClassifier
-from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import MinMaxScaler
 from sklearn.preprocessing import LabelEncoder
 from sklearn.feature_selection import SelectKBest
 from sklearn.feature_selection import chi2
+from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score
 import sklearn.metrics as metrics
 import matplotlib.pyplot as plt
@@ -67,10 +67,10 @@ parkinson_scores= pd.DataFrame(fit.scores_)
 parkinson_columns= pd.DataFrame(x.columns)
 
 #Create a dataframe that combines all the features and their corresponding scores.
-feature_scores= pd.concat([parkinson_scores, parkinson_scores], axis=1)
+feature_scores= pd.concat([parkinson_columns, parkinson_scores], axis=1)
 feature_scores.columns= ['Features', 'Score']
 feature_scores.sort_values(by= 'Score')
-#print(feature_scores)
+print(feature_scores)
 
 #### From the correlation heatmap and feature selection step we conclude that the 3 most affecting features on the target out put are:
 #### 1- MDVP:Flo(Hz)
@@ -81,7 +81,7 @@ feature_scores.sort_values(by= 'Score')
 
 x= parkinson_df[["MDVP:Flo(Hz)", "MDVP:Fo(Hz)", "MDVP:Fhi(Hz)"]]
 y= parkinson_df[["status"]]
-x_train,x_test,y_train,y_test= train_test_split(x, y, test_size=0.2, random_state=7)
+x_train,x_test,y_train,y_test= train_test_split(x, y, test_size=0.2, random_state=7)    #test size is 20% and train size is 80% of the dataset
 
 model= XGBClassifier()
 model.fit(x_train,y_train)
