@@ -44,9 +44,15 @@ fig4,ax = plt.subplots(figsize = (12,6))
 x= uber_df.Lon
 y= uber_df.Lat
 plt.scatter(x, y, color= "purple")
-plt.title("Density of trips per Hour", fontsize=16)
-plt.xlabel("Hour", fontsize=14)
-plt.ylabel("Density of rides", fontsize=14)
+ax.plot([-73.6],[40.8],'o')
+ax.text(-73.6,40.8, "Manhattan")
+ax.plot([-73.8],[41],'o')
+ax.text(-73.8,41, "Newburgh")
+ax.plot([-74.01],[40.2],'o')
+ax.text(-74.01,40.2, "New Jersey")
+plt.title("Density of trips per location", fontsize=16)
+plt.xlabel("Longitude", fontsize=14)
+plt.ylabel("Latitude", fontsize=14)
 fig4.show()
 
 input()
